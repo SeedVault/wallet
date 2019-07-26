@@ -1,1 +1,1 @@
-# wallet
+# SEED Wallet

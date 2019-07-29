@@ -120,7 +120,7 @@ app.get('/logout', (req, res) => {
 });
 
 // This endpoint handles OAuth2 requests (exchanges code for token)
-app.get('/callback',
+app.get('/server/callback',
   passport.authenticate('oauth2', { failureRedirect: '/' }),
   (req, res, next) => {
     if (!req.user) {

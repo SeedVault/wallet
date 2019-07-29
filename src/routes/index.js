@@ -34,7 +34,7 @@ router.get('/', (req, res) => {
 router.get('/login', passport.authenticate('oauth2'));
 
 // This endpoint handles OAuth2 requests (exchanges code for token)
-router.get('/callback',
+router.get('/server/callback',
   passport.authenticate('oauth2', { failureRedirect: '/login' }),
   (req, res, next) => {
     if (!req.user) {

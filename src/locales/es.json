@@ -258,5 +258,13 @@
     "privacy": {
       "privacy_policy": "Política de Privacidad"
     }
+  },
+  "app": {
+    "dashboard": "Inicio",
+    "privacy": "Privacidad",
+    "transactions": "Transacciones",
+    "settings": "Ociones",
+    "help": "Ayuda",
+    "sign_out": "Salir"
   }
 }

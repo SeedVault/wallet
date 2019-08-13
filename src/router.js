@@ -42,6 +42,31 @@ const router = new Router({
           name: 'legal-terms',
           component: () => import(/* webpackChunkName: "auth" */ './views/LegalTerms.vue'),
         },
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: () => import(/* webpackChunkName: "auth" */ './views/Dashboard.vue'),
+        },
+        {
+          path: 'transactions',
+          name: 'transactions',
+          component: () => import(/* webpackChunkName: "auth" */ './views/Transactions.vue'),
+        },
+        {
+          path: 'help',
+          name: 'help',
+          component: () => import(/* webpackChunkName: "auth" */ './views/Help.vue'),
+        },
+        {
+          path: 'privacy',
+          name: 'privacy',
+          component: () => import(/* webpackChunkName: "auth" */ './views/Privacy.vue'),
+        },
+        {
+          path: 'settings',
+          name: 'settings',
+          component: () => import(/* webpackChunkName: "auth" */ './views/Settings.vue'),
+        },
       ],
     },
     {

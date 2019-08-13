@@ -28,13 +28,12 @@ module.exports = function(app) {
   passport.use(client);
 
   passport.serializeUser((user, done) => {
-    console.warn('------------------------');
     const loadedUser = {
       email: user.sub,
+      username: user.username,
+      picture: user.picture
     };
     done(null, JSON.stringify(loadedUser));
-    console.warn(JSON.stringify(loadedUser));
-    console.warn('------------------------');
   });
 
   passport.deserializeUser((user, done) => {

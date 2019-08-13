@@ -13,7 +13,7 @@
             <!-- <b-nav-item href="#">Link</b-nav-item>
             <b-nav-item href="#">Link</b-nav-item> -->
             <b-nav-item-dropdown right>
-              <template slot="button-content"><em>{{ user.email || '' }}</em></template>
+              <template slot="button-content"><em>{{ user.username || '' }}</em></template>
               <!-- <b-dropdown-item href="#">Profile</b-dropdown-item> -->
               <b-dropdown-item href="/auth/logout">Sign Out</b-dropdown-item>
             </b-nav-item-dropdown>
@@ -54,7 +54,7 @@ export default {
   computed: {
     user() {
       return this.$store.getters.user;
-    }
+    },
   },
 };
 </script>

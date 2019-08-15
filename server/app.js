@@ -10,11 +10,11 @@ let redisStoreProto = require('connect-redis');
 
 // Available locales
 const availableLocales = ['en', 'es'];
-const locale = ':locale(' + availableLocales.join('|') + ')';
+// const locale = ':locale(' + availableLocales.join('|') + ')';
 module.exports = function(app) {
 
   const RedisStore = redisStoreProto(session);
-  const { ensureLoggedIn } = require('connect-ensure-login');
+  // const { ensureLoggedIn } = require('connect-ensure-login');
   // const cors = require('cors');
   const client = require('passport-seed-accounts/lib');
 
@@ -24,7 +24,6 @@ module.exports = function(app) {
     process.env.WALLET_OAUTH2_CALLBACK_URL,
     ['offline', 'openid'],
   );
-
   passport.use(client);
 
   passport.serializeUser((user, done) => {
@@ -127,7 +126,7 @@ module.exports = function(app) {
       }
       // After success, redirect to the page we came from originally
       // res.redirect(req.session.redirectTo);
-      res.redirect(`/${req.lang}/home`);
+      res.redirect(`/${req.lang}/dashboard`);
     });
 
   app.get('/auth/me', (req, res) => {

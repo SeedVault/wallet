@@ -164,7 +164,7 @@ export default {
           padding-right: 10px;
         }
 
-        /* &.active {
+        &.active {
           background: rgba(107,76,159,.15);
           border-radius: 8px;
           color: #6b4c9f;
@@ -172,7 +172,7 @@ export default {
           img {
             filter: invert(38%) sepia(13%) saturate(2389%) hue-rotate(221deg) brightness(75%) contrast(92%);
           }
-        } */
+        }
 
         &:hover {
           color: #6b4c9f;

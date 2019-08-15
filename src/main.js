@@ -41,6 +41,27 @@ Vue.prototype.normalizeErrors = (errors) => {
   return data;
 };
 
+// Global filters
+Vue.filter('toCurrency', function (value, decimals) {
+  if (!value) return '';
+  if (typeof value !== 'number') {
+    return value;
+  }
+  if (!decimals) {
+    decimals = 0
+  }
+  if (typeof decimals !== 'number') {
+    decimals = 0
+  }
+  var formatter = new Intl.NumberFormat('en-US', {
+    style: 'decimal',
+    currency: 'USD',
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals
+  })
+  return formatter.format(value)
+});
+
 new Vue({
   router,
   store,

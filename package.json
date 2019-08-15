@@ -20,6 +20,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "bootstrap-vue": "^2.0.0-rc.28",
+    "chart.js": "^2.8.0",
     "connect-ensure-login": "^0.1.1",
     "connect-history-api-fallback": "^1.6.0",
     "connect-redis": "^3.4.2",
@@ -40,6 +41,7 @@
     "passport-seed-accounts": "file:../passport-seed-accounts",
     "seed-theme": "file:../seed-theme",
     "vue": "^2.6.10",
+    "vue-chartjs": "^3.4.2",
     "vue-i18n": "^8.14.0",
     "vue-router": "^3.1.2",
     "vuex": "^3.0.1"

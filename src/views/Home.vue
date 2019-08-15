@@ -13,12 +13,11 @@
             {{ $t('home.subheadline') }}
           </p>
           <div class="text-center text-md-left">
-            <a href="/auth/login" class="btn btn-primary lift mr-1"
-            style="font-size: 16px; font-weight: 400;">
+            <router-link :to="{ name: 'dashboard'}" class="btn btn-primary lift mr-1 access-button">
               {{ $t('home.call_to_action') }}
               <img :src="require('@/assets/icons/ArrowOut-white@2x.svg')"
               class="d-none d-md-inline ml-3"/>
-            </a>
+            </router-link>
           </div>
         </div>
       </div>
@@ -50,5 +49,10 @@ h1 {
 }
 .mb-6, .my-6 {
   margin-bottom: 2rem !important;
+}
+
+.access-button {
+  font-size: 16px;
+  font-weight: 400;
 }
 </style>

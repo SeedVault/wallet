@@ -46,6 +46,7 @@ const router = new Router({
           path: 'dashboard',
           name: 'dashboard',
           component: () => import(/* webpackChunkName: "auth" */ './views/Dashboard.vue'),
+          meta: { authenticated: true },
         },
         {
           path: 'transactions',
@@ -85,9 +86,9 @@ const router = new Router({
   ],
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (!store.getters.userChecked) {
-    axios.get('/auth/me')
+    /* axios.get('/auth/me')
       .then((response) => {
         store.dispatch('setUser', { user: response.data });
         store.dispatch('setUserChecked', { userChecked: true });
@@ -99,9 +100,26 @@ router.beforeEach((to, from, next) => {
         } else {
           // Something went wrong. Ignore it.
         }
-      });
+      }); */
+    try {
+      const response = await axios.get('/auth/me');
+      store.dispatch('setUser', { user: response.data });
+      store.dispatch('setUserChecked', { userChecked: true });
+    } catch (error) {
+      if (error.response.status === 403) {
+        store.dispatch('setUser', { user: null });
+        store.dispatch('setUserChecked', { userChecked: true });
+      } else {
+        // Something went wrong. Ignore it.
+      }
+    }
   }
-  next();
+
+  if (to.matched.some(record => record.meta.authenticated) && !store.getters.user) {
+    window.location.href = '/auth/login';
+  } else {
+    next();
+  }
 });
 
 export default router;

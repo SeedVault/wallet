@@ -261,6 +261,8 @@
   },
   "app": {
     "dashboard": "Dashboard",
+    "send": "Send",
+    "receive": "Receive",
     "privacy": "Privacy",
     "transactions": "Transactions",
     "settings": "Settings",

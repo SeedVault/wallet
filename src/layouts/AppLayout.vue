@@ -30,12 +30,24 @@
                   </router-link>
                 </li>
                 <li class="nav-item">
+                  <router-link class="nav-link" :to="{ name: 'send'}">
+                    <img src="@/assets/icons/outline-send@2x.svg" />
+                    {{ $t('app.send') }}
+                  </router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link class="nav-link" :to="{ name: 'receive'}">
+                    <img src="@/assets/icons/outline-history-24px@2x.svg" />
+                    {{ $t('app.receive') }}
+                  </router-link>
+                </li>
+                <li class="nav-item">
                   <router-link class="nav-link" :to="{ name: 'privacy'}">
                     <img src="@/assets/icons/outline-security-24px@2x.svg" />
                     {{ $t('app.privacy') }}
                   </router-link>
                 </li>
-                 <li class="nav-item">
+                <!-- <li class="nav-item">
                   <router-link class="nav-link" :to="{ name: 'transactions'}">
                     <img src="@/assets/icons/outline-history-24px@2x.svg" />
                     {{ $t('app.transactions') }}
@@ -46,7 +58,7 @@
                     <img src="@/assets/icons/outline-tune-24px@2x.svg" />
                     {{ $t('app.settings') }}
                   </router-link>
-                </li>
+                </li> -->
               </ul>
               <ul class="nav flex-column sidebar__menu--signout">
                 <li class="nav-item">

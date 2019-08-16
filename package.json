@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "DEBUG=wallet:*,mongoose:* nodemon --exec 'vue-cli-service serve'",
+    "serve": "nodemon --exec 'vue-cli-service serve'",
     "build": "vue-cli-service build",
     "test": "NODE_ENV=testing jest --runInBand --detectOpenHandles",
     "lint": "vue-cli-service lint",

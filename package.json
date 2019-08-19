@@ -9,7 +9,8 @@
     "lint": "vue-cli-service lint",
     "debug": "DEBUG=*:* nodemon --exec 'vue-cli-service serve'",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
-    "prod": "NODE_ENV=production node ./server/bin/www.js",
+    "prod": "NODE_ENV=production node -r dotenv/config ./server/bin/www.js",
+    "prods": "NODE_ENV=production node -r dotenv/config ./server/bin/wwws.js",
     "production": "NODE_ENV=production vue-cli-service serve --mode production"
   },
   "repository": {
@@ -23,7 +24,6 @@
     "bootstrap-vue": "^2.0.0-rc.28",
     "chart.js": "^2.8.0",
     "connect-ensure-login": "^0.1.1",
-    "connect-history-api-fallback": "^1.6.0",
     "connect-redis": "^3.4.2",
     "cookie-parser": "^1.4.4",
     "core-js": "^2.6.5",
@@ -58,7 +58,7 @@
     "eslint-plugin-vue": "^5.0.0",
     "jest": "^24.9.0",
     "nodemon": "^1.19.1",
-    "sass": "^1.18.0",
+    "sass": "^1.22.10",
     "sass-loader": "^7.2.0",
     "vue-cli-plugin-i18n": "^0.6.0",
     "vue-template-compiler": "^2.6.10"

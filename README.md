@@ -33,3 +33,8 @@ npm run test
 ```
 npm run lint
 ```
+
+### Add to pm2
+```
+pm2 start ecosystem.config.js --env development
+```

@@ -70,7 +70,7 @@ export default {
 <style lang="scss" scoped>
 
 h4.wallet-address {
-  font-size: 1.3125rem;
+  font-size: 1.2125rem;
   background-color: #eee;
   padding: 10px;
 }

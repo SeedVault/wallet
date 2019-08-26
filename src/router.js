@@ -24,6 +24,7 @@ const router = new Router({
         if (i18n.locale !== locale) {
           i18n.locale = locale;
         }
+        store.dispatch('setLang', { lang: i18n.locale });
         next();
       },
       children: [

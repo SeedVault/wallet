@@ -2,11 +2,20 @@
   "validation": {
     "email": "Este valor no es una dirección de email válida.",
     "csrf_token": "Token CSRF no válido.",
+    "greater_than_zero": "Este valor debe ser mayor que cero.",
     "option": "El valor seleccionado no es una opción válida.",
     "regex": "Este valor no es válido.",
     "required": "Este valor no debería estar vacío."
   },
   "domain": {
+    "wallet": {
+      "validation": {
+        "wallet_not_found": "No se encuentra tu monedero",
+        "recipient_not_found": "Usuario no hallado",
+        "insufficient_funds": "Tu saldo es insuficiente para enviar esta cantidad",
+        "self_transfer_error": "No puedes enviar a tu propia cuenta."
+      }
+    },
     "roles": {
       "user": "Usuario",
       "developer": "Programador",
@@ -244,7 +253,12 @@
     "terms": "Condiciones",
     "accept": "Aceptar",
     "reject": "Rechazar",
-    "save": "Guardar"
+    "save": "Guardar",
+    "continue": "Continuar",
+    "previous": "Anterior",
+    "please_wait": "Por favor espera...",
+    "oops": "¡Oops!",
+    "something_went_wrong": "Algo salió mal"
   },
   "home": {
     "title": "Una billetera conectada a un mundo conectado",
@@ -259,6 +273,31 @@
       "privacy_policy": "Política de Privacidad"
     }
   },
+  "dashboard": {
+    "balance": "Saldo",
+    "latest_transactions": "Últimas transacciones",
+    "there_are_no_transactions": "No hay transacciones",
+    "unknown": "(desconocido)",
+    "withdraw": "Retiro",
+    "deposit": "Depósito"
+  },
+  "receive": { 
+    "receive": "Recibir",
+    "your_wallet_address": "Esta es la dirección de tu monedero:",
+    "share_your_address": "Compártela con otras personas para recibir pagos"
+  },
+  "send": {
+    "send": "Enviar",
+    "to_label": "Destinatario",
+    "to_placeholder": "Usuario, e-mail ó dirección de monedero",
+    "amount_label": "Cantidad",
+    "amount_placeholder": "Cantidad a enviar",
+    "sent": "Enviado",
+    "please_review": "Por favor verifica tu transacción",
+    "send_amount_to_this_address": "Enviar {amount} SEED a esta dirección de monedero:",
+    "funds_will_be_credited": "El importe será acreditado cuando se obtenga confirmación por parte de la red.",
+    "transaction_id": "Código de transacción"
+  },
   "app": {
     "dashboard": "Inicio",
     "send": "Enviar",
@@ -268,5 +307,10 @@
     "settings": "Opciones",
     "help": "Ayuda",
     "sign_out": "Salir"
+  },
+  "apps": {
+    "accounts": "Accounts",
+    "wallet": "Wallet",
+    "greenhouse": "Greenhouse"
   }
 }

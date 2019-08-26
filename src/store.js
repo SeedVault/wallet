@@ -7,6 +7,7 @@ Vue.use(Vuex);
 // https://github.com/stefangabos/world_countries/blob/master/data/en/countries.json
 export default new Vuex.Store({
   state: {
+    lang: 'en',
     userChecked: false,
     user: null,
     allRoles: ['user', 'developer', 'publisher'],
@@ -29,15 +30,57 @@ export default new Vuex.Store({
       'ug', 'ua', 'ae', 'gb', 'us', 'uy', 'uz', 'vu', 've', 'vn', 'ye', 'zm',
       'zw',
     ],
+    logo: '/images/application_logo_wallet.svg',
+    menu: [
+      {
+        text: 'app.dashboard',
+        icon: 'outline-dashboard-24px@2x.svg',
+        target: 'dashboard',
+      },
+      {
+        text: 'app.send',
+        icon: 'outline-send@2x.svg',
+        target: 'send',
+      },
+      {
+        text: 'app.receive',
+        icon: 'outline-history-24px@2x.svg',
+        target: 'receive',
+      },
+      {
+        text: 'app.privacy',
+        icon: 'outline-security-24px@2x.svg',
+        target: 'privacy',
+      },
+    ],
+    apps: [
+      {
+        text: 'apps.accounts',
+        icon: 'outline-app-24px@2x.svg',
+        url:  (process.env.NODE_ENV === 'production'? 'https://accounts.seedtoken.io': 'https://127.0.0.1:9000') + `/{{ locale }}/sign-in`,
+      },
+      {
+        text: 'apps.greenhouse',
+        icon: 'outline-app-24px@2x.svg',
+        url:  (process.env.NODE_ENV === 'production'? 'https://greenhouse-dev.seedtoken.io': 'https://127.0.0.1:9002') + `/{{ locale }}/dashboard`,
+      },
+    ],
   },
   getters: {
     /* eslint-disable no-shadow */
+    lang: state => state.lang,
+    apps: state => state.apps,
     allCountries: state => state.allCountries,
     allRoles: state => state.allRoles,
     user: state => state.user,
     userChecked: state => state.userChecked,
+    menu: state => state.menu,
+    logo: state => state.logo,
   },
   mutations: {
+    SET_LANG(state, params) {
+      state.lang = params.lang;
+    },
     SET_USER(state, params) {
       state.user = params.user;
     },
@@ -46,6 +89,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    setLang({ commit }, params) {
+      commit('SET_LANG', params);
+    },
     setUser({ commit }, params) {
       commit('SET_USER', params);
     },

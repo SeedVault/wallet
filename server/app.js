@@ -6,7 +6,12 @@ let csrf = require('csurf');
 let passport = require('passport');
 let session = require('express-session');
 let redisStoreProto = require('connect-redis');
-// let users = require('./controllers/users');
+let api = require('./controllers/api');
+
+// Allow self-signed certs in development
+if (process.env.NODE_ENV === 'development') {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+}
 
 // Available locales
 const availableLocales = ['en', 'es'];
@@ -28,7 +33,8 @@ module.exports = function(app) {
 
   passport.serializeUser((user, done) => {
     const loadedUser = {
-      email: user.sub,
+      id: user.sub,
+      email: user.email,
       username: user.username,
       picture: user.picture
     };
@@ -114,6 +120,7 @@ module.exports = function(app) {
   }));
 
   app.get('/auth/logout', (req, res) => {
+    req.logout();
     req.session.destroy(() => res.redirect('/'));
   });
 
@@ -136,9 +143,10 @@ module.exports = function(app) {
     res.status(200).json(req.user);
   });
 
-
-
-
-
+  // App routes
+  app.get('/api/dashboard', api.getDashboard);
+  app.get('/api/wallet', api.getWallet);
+  app.post('/api/wallet/verify', api.verifyWallet);
+  app.post('/api/wallet/send', api.send);
 
 }

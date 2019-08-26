@@ -10,6 +10,8 @@ import LocaleChanger from 'seed-theme/src/components/LocaleChanger.vue';
 import IconInsideInput from 'seed-theme/src/components/IconInsideInput.vue';
 import ValidationBox from 'seed-theme/src/components/ValidationBox.vue';
 import ValidationMessages from 'seed-theme/src/components/ValidationMessages.vue';
+import Oops from 'seed-theme/src/components/Oops.vue';
+import LoadingCircle from 'seed-theme/src/components/LoadingCircle.vue';
 import axios from 'axios';
 import App from './App.vue';
 import router from './router';
@@ -27,6 +29,8 @@ Vue.component('input-checkbox', InputCheckbox);
 Vue.component('locale-changer', LocaleChanger);
 Vue.component('validation-box', ValidationBox);
 Vue.component('validation-messages', ValidationMessages);
+Vue.component('oops', Oops);
+Vue.component('loading-circle', LoadingCircle);
 
 Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
@@ -42,6 +46,46 @@ Vue.prototype.normalizeErrors = (errors) => {
 };
 
 // Global filters
+Vue.filter('toCryptoCurrency', function (value) {
+  value = value.toString();
+  let sInt = '';
+  let sDec = '';
+  let thousandsSeparator = ',';
+  let decimalSeparator = '.';
+  if (!value.includes('.')) {
+    sInt = value;
+  } else {
+    let parts = value.split('.');
+    sInt = parts[0];
+    sDec = parts[1];
+  }
+  if (i18n.locale === 'es') {
+    thousandsSeparator = '.';
+    decimalSeparator = ',';
+  }
+  let s = sInt.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + thousandsSeparator);
+  if (sDec !== '') {
+    s += decimalSeparator + sDec;
+  }
+  return s;
+  // return value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+});
+
+
+Vue.filter('toDate', function (value, format) {
+  let date = new Date(value);
+  let locale = 'en-US';
+  if (i18n.locale === 'es') {
+    locale = 'es-AR';
+  }
+  switch(format) {
+    case 'short':
+      return date.toLocaleDateString(locale);
+    default:
+      return value;
+  }
+});
+
 Vue.filter('toCurrency', function (value, decimals) {
   if (!value) return '';
   if (typeof value !== 'number') {

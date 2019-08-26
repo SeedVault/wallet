@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import AppLayout from '../layouts/AppLayout.vue';
+import AppLayout from 'seed-theme/src/layouts/AppLayout.vue';
 
 export default {
   name: 'Privacy',

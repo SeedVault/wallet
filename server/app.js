@@ -78,14 +78,14 @@ module.exports = function(app) {
 
 
   // Set up protection against CSRF
-  var csrfCheck = csrf({ cookie: true, secure: true });
+  /* var csrfCheck = csrf({ cookie: true, secure: true });
   app.use(csrfCheck);
   app.use(function (err, req, res, next) {
     if (err.code !== 'EBADCSRFTOKEN') return next(err);
     // var validationError = createValidationError('Invalid CSRF token');
     // return res.status(422).json(validationError);
     return res.status(422).json({"errors":{"_":{"message":"validation.csrf_token"}}});
-  });
+  }); */
 
   // Detect language
   app.use((req, res, next) => {

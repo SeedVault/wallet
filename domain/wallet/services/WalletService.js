@@ -1,6 +1,6 @@
 const { SeedTokenAPIClientEthereumETHPersonal } = require('seedtoken-api-client');
 const fetch = require('node-fetch');
-const Recipient = require('../validators/Recipient');
+const Transaction = require('../validators/Transaction');
 const ValidationError = require('mongoose/lib/error/validation');
 const ValidatorError = require('mongoose/lib/error/validation');
 const BigNumber = require('bignumber.js');
@@ -99,11 +99,12 @@ const WalletService = {
   },
 
   send: async(username, to, amount, confirmed) => {
-    let recipient = new Recipient({
+    let transaction = new Transaction({
+      username,
       to,
       amount,
     });
-    await Recipient.check(recipient);
+    await Transaction.check(transaction);
     let profiles = await WalletService.findProfiles([username, to]);
     if (!profiles[username]) {
       throw new WalletNotFoundError();

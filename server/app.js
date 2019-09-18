@@ -8,6 +8,7 @@ const redis = require('redis')
 const session = require('express-session')
 let RedisStore = require('connect-redis')(session)
 let api = require('./controllers/api');
+let v1 = require('./controllers/v1');
 
 // Allow self-signed certs in development
 if (process.env.NODE_ENV === 'development') {
@@ -80,6 +81,15 @@ module.exports = function(app) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
+
+  // API Authentication
+  var apiAuth = function (req, res, next) {
+    if (req.header('Wallet-API-Key') === process.env.WALLET_API_KEY) {
+      return next();
+    } else {
+      res.status(403).json('Forbidden');
+    }
+  }
 
 
   // Set up protection against CSRF
@@ -154,4 +164,6 @@ module.exports = function(app) {
   app.post('/api/wallet/verify', api.verifyWallet);
   app.post('/api/wallet/send', api.send);
 
+  // Public API
+  app.post('/api/v1/send', apiAuth, v1.send);
 }

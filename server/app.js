@@ -166,4 +166,5 @@ module.exports = function(app) {
 
   // Public API
   app.post('/api/v1/send', apiAuth, v1.send);
+  app.get('/api/v1/balance', apiAuth, v1.getBalance);
 }

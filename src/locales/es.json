@@ -302,14 +302,14 @@
     "dashboard": "Inicio",
     "send": "Enviar",
     "receive": "Recibir",
-    "privacy": "Privacidad",
+    "privacy": "Mis Datos",
     "transactions": "Transacciones",
     "settings": "Opciones",
     "help": "Ayuda",
     "sign_out": "Salir"
   },
   "apps": {
-    "accounts": "Accounts",
+    "accounts": "Mi Cuenta",
     "wallet": "Wallet",
     "greenhouse": "Greenhouse"
   }

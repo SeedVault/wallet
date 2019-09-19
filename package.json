@@ -41,7 +41,7 @@
     "passport-oauth2": "^1.5.0",
     "passport-oauth2-refresh": "^1.1.0",
     "passport-seed-accounts": "file:../passport-seed-accounts",
-    "qrcode": "^1.4.1",
+    "qrcode": "^1.4.2",
     "redis": "^2.8.0",
     "saslprep": "^1.0.3",
     "seed-theme": "file:../seed-theme",

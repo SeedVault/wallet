@@ -16,6 +16,11 @@
         "self_transfer_error": "You can't send funds to yourself."
       }
     },
+    "transaction": {
+      "validation": {
+        "amount_greater_than_minimum": "This value should be greater than 0.00000001"
+      }
+    },
     "roles": {
       "user": "User",
       "developer": "Developer",

@@ -15,7 +15,7 @@ const RecipientSchema = mongoose.Schema({
     type: Number,
     match: [/^[0-9\\.]+$/, 'validation.regex'],
     required: [true, 'validation.required'],
-    min: [0, 'validation.greater_than_zero'],
+    min: [0.00000001, 'domain.transaction.validation.amount_greater_than_minimum'],
     trim: true,
     /*validate : {
       validator : Number.isInteger,

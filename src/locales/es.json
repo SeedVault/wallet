@@ -16,6 +16,11 @@
         "self_transfer_error": "No puedes enviar a tu propia cuenta."
       }
     },
+    "transaction": {
+      "validation": {
+        "amount_greater_than_minimum": "Este valor debe ser mayor que 0.00000001"
+      }
+    },
     "roles": {
       "user": "Usuario",
       "developer": "Programador",

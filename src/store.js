@@ -31,6 +31,9 @@ export default new Vuex.Store({
       'zw',
     ],
     logo: '/images/application_logo_wallet.svg',
+    logoImage: '/images/logo_wallet.svg',
+    logoText: '/images/text_wallet.svg',
+    logoTextWidth: '128px',
     menu: [
       {
         text: 'app.dashboard',
@@ -76,6 +79,9 @@ export default new Vuex.Store({
     userChecked: state => state.userChecked,
     menu: state => state.menu,
     logo: state => state.logo,
+    logoImage: state => state.logoImage,
+    logoText: state => state.logoText,
+    logoTextWidth: state => state.logoTextWidth,
   },
   mutations: {
     SET_LANG(state, params) {

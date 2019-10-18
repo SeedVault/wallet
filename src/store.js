@@ -3,18 +3,6 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-var appAccountsUrl = 'https://127.0.0.1:9000';
-var appGreenhouseUrl = 'https://127.0.0.1:9002';
-if (process.env.NODE_ENV === 'production') {
-  if (window.location.hostname === 'wallet-dev.seedtoken.io') {
-    appAccountsUrl = 'https://accounts.seedtoken.io';
-    appGreenhouseUrl = 'https://greenhouse-dev.seedtoken.io';
-  } else {
-    appAccountsUrl = 'https://accounts2.seedtoken.io';
-    appGreenhouseUrl = 'https://greenhouse.seedtoken.io';
-  }
-}
-
 // Data source:
 // https://github.com/stefangabos/world_countries/blob/master/data/en/countries.json
 export default new Vuex.Store({
@@ -48,43 +36,52 @@ export default new Vuex.Store({
     logoTextWidth: '128px',
     menu: [
       {
+        id: 1,
         text: 'app.dashboard',
         icon: 'outline-dashboard-24px@2x.svg',
         target: 'dashboard',
       },
       {
+        id: 2,
         text: 'app.send',
         icon: 'outline-send@2x.svg',
         target: 'send',
       },
       {
+        id: 3,
         text: 'app.receive',
         icon: 'outline-history-24px@2x.svg',
         target: 'receive',
       },
       {
+        id: 4,
         text: 'app.privacy',
         icon: 'outline-security-24px@2x.svg',
         target: 'privacy',
       },
-    ],
-    apps: [
       {
-        text: 'apps.accounts',
-        icon: 'icon-gear.svg',
-        url: `${appAccountsUrl}/{{ locale }}/profile`,
+        id: 5,
+        type: 'divider',
+        text: '',
+        icon: '',
       },
       {
+        id: 6,
+        text: 'apps.accounts',
+        icon: 'icon-gear.svg',
+        url: `${ACCOUNTS_URL}/{{ locale }}/profile`,
+      },
+      {
+        id: 7,
         text: 'apps.greenhouse',
         icon: 'outline-app-24px@2x.svg',
-        url: `${appGreenhouseUrl}/{{ locale }}/dashboard`,
+        url: `${GREENHOUSE_URL}/{{ locale }}/dashboard`,
       },
     ],
   },
   getters: {
     /* eslint-disable no-shadow */
     lang: state => state.lang,
-    apps: state => state.apps,
     allCountries: state => state.allCountries,
     allRoles: state => state.allRoles,
     user: state => state.user,

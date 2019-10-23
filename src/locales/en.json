@@ -13,7 +13,8 @@
         "wallet_not_found": "Your wallet is missing.",
         "recipient_not_found": "User not found.",
         "insufficient_funds": "You do not have enough funds to send this amount.",
-        "self_transfer_error": "You can't send funds to yourself."
+        "self_transfer_error": "You can't send funds to yourself.",
+        "invalid_address": "Invalid address"
       }
     },
     "transaction": {
@@ -289,7 +290,8 @@
   "receive": { 
     "receive": "Receive",
     "your_wallet_address": "This is your wallet address:",
-    "share_your_address": "Share this with others to receive payments"
+    "share_your_address": "Share this with others to receive payments",
+    "copy_wallet_address_to_clipboard": "Copy your wallet address to clipboard"
   },
   "send": {
     "send": "Send",
@@ -299,7 +301,7 @@
     "amount_placeholder": "Amount to send",
     "sent": "Sent",
     "please_review": "Please review your transaction",
-    "send_amount_to_this_address": "Send {amount} SEED to this address:",
+    "send_amount_to": "Send {amount} SEED to {to}",
     "funds_will_be_credited": "The funds will be credited after we get confirmations from the network.",
     "transaction_id": "Transaction ID"
   },

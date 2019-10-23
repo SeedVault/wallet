@@ -13,7 +13,8 @@
         "wallet_not_found": "No se encuentra tu monedero",
         "recipient_not_found": "Usuario no hallado",
         "insufficient_funds": "Tu saldo es insuficiente para enviar esta cantidad",
-        "self_transfer_error": "No puedes enviar a tu propia cuenta."
+        "self_transfer_error": "No puedes enviar a tu propia cuenta.",
+        "invalid_address": "Dirección no válida"
       }
     },
     "transaction": {
@@ -289,7 +290,8 @@
   "receive": { 
     "receive": "Recibir",
     "your_wallet_address": "Esta es la dirección de tu monedero:",
-    "share_your_address": "Compártela con otras personas para recibir pagos"
+    "share_your_address": "Compártela con otras personas para recibir pagos",
+    "copy_wallet_address_to_clipboard": "Copiar tu dirección de monedero al portapapeles"
   },
   "send": {
     "send": "Enviar",
@@ -299,7 +301,7 @@
     "amount_placeholder": "Cantidad a enviar",
     "sent": "Enviado",
     "please_review": "Por favor verifica tu transacción",
-    "send_amount_to_this_address": "Enviar {amount} SEED a esta dirección de monedero:",
+    "send_amount_to": "Enviar {amount} SEED a {to}",
     "funds_will_be_credited": "El importe será acreditado cuando se obtenga confirmación por parte de la red.",
     "transaction_id": "Código de transacción"
   },

@@ -110,13 +110,15 @@ const WalletService = {
     if (!profiles[username]) {
       throw new WalletNotFoundError();
     }
-    if (!profiles[to]) {
-      let err = new ValidationError(null);
+    let targetAddress = to;
+    if (profiles[to]) {
+      targetAddress = profiles[to].walletAddress;
+      /* let err = new ValidationError(null);
       err.addError('to', new ValidatorError());
       err.errors.to.message = 'domain.wallet.validation.recipient_not_found';
-      throw err;
+      throw err; */
     }
-    if (profiles[username].walletAddress === profiles[to].walletAddress) {
+    if (profiles[username].walletAddress === targetAddress) {
       let err = new ValidationError(null);
       err.addError('to', new ValidatorError());
       err.errors.to.message = 'domain.wallet.validation.self_transfer_error';
@@ -133,14 +135,14 @@ const WalletService = {
     } */
     if (!confirmed) {
       return {
-        'toWalletAddress': profiles[to].walletAddress
+        'toWalletAddress': targetAddress
       };
     } else {
       let transactionId = '';
       try {
         transactionId = await st.transfer(
           profiles[username].walletAddress,
-          profiles[to].walletAddress,
+          targetAddress,
           amount,
           process.env.PARITY_TEST_ADDRESS_PASSPHRASE
         );
@@ -149,6 +151,11 @@ const WalletService = {
           let verr = new ValidationError(null);
           verr.addError('amount', new ValidatorError());
           verr.errors.amount.message = 'domain.wallet.validation.insufficient_funds';
+          throw verr;
+        } else if (err.toString().includes('Invalid to address')) {
+          let verr = new ValidationError(null);
+          verr.addError('to', new ValidatorError());
+          verr.errors.to.message = 'domain.wallet.validation.invalid_address';
           throw verr;
         } else {
           throw err;

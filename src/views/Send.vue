@@ -47,8 +47,9 @@
               <form @submit.prevent="send" v-show="!sending && verified && !sent" class="text-center">
                 <h5>{{ $t('send.please_review') }}</h5>
                 <p>
-                  <i18n path="send.send_amount_to_this_address">
+                  <i18n path="send.send_amount_to">
                     <strong slot="amount">{{ amount|toCryptoCurrency() }}</strong>
+                    <strong slot="to">{{ to }}</strong>
                   </i18n>
                 </p>
                 <canvas id="qr-canvas"></canvas>

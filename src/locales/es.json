@@ -269,7 +269,9 @@
   "home": {
     "title": "Una billetera conectada a un mundo conectado",
     "subheadline": "Envía, recibe y almacena tus fondos de forma segura con nuestro inteligente y hermoso monedero digial.",
-    "call_to_action": "Ingresa a tu monedero"
+    "call_to_action": "Ingresa a tu monedero",
+    "disclaimer": "Aviso legal",
+    "disclaimer_text": "Estás participan en una prueba beta de SEED's Greenhouse. Al hacerlo, aceptas que SEED no se hace responsable por ninguna pérdida, daño, malversación u otro impacto sobre tus datos ni por cualquier daño de cualquier tipo causado por datos de terceros. Durante esta prueba beta, los tokens SEED no tienen dinero en efectivo ni ningún otro valor y solo se usan para fines experimentales."
   },
   "legal": {
     "tos": {

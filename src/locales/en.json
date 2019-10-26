@@ -269,7 +269,9 @@
   "home": {
     "title": "A connected wallet for a connected world",
     "subheadline": "Send, receive, and store your funds securely with our smart and beautiful mobile-first cryptocurrency wallet. ",
-    "call_to_action": "Access your wallet"
+    "call_to_action": "Access your wallet",
+    "disclaimer": "Disclaimer",
+    "disclaimer_text": "You are participating in a beta test of SEED’s Greenhouse.  By doing so you agree that SEED is not responsible for any lost, damaged, misdirected or other impacts on your data and/or for any damages of any kind caused by any third party data. During this beta test, SEED tokens have no cash or other value and are for experimental purposes only."
   },
   "legal": {
     "tos": {

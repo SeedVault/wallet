@@ -83,7 +83,7 @@ const WalletService = {
 
 
   findProfiles: async(keywords) => {
-    let url = process.env.ACCOUNTS_URL + '/api/profiles/search';
+    let url = process.env.VUE_APP_ACCOUNTS_URL + '/api/profiles/search';
     let params = '';
     for (let i = 0; i < keywords.length; i++) {
       params += (params === ''? '?': '&') + 'q[]=' + encodeURIComponent(keywords[i]);

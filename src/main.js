@@ -39,15 +39,17 @@ Vue.prototype.axios = axios;
 // Register function to normalize mongoose validation messages
 Vue.prototype.normalizeErrors = (errors) => {
   const data = [];
-  for (const [key, value] of Object.entries(errors.data.errors)) {
-    data[key] = [{ msg: value.message }];
+  const keys = Object.keys(errors.data.errors);
+  const values = Object.values(errors.data.errors);
+  for (let i = 0; i < keys.length; i += 1) {
+    data[keys[i]] = [{ msg: values[i].message }];
   }
   return data;
 };
 
 // Global filters
-Vue.filter('toCryptoCurrency', function (value) {
-  value = value.toString();
+Vue.filter('toCryptoCurrency', (numericValue) => {
+  const value = numericValue.toString();
   let sInt = '';
   let sDec = '';
   let thousandsSeparator = ',';
@@ -55,15 +57,15 @@ Vue.filter('toCryptoCurrency', function (value) {
   if (!value.includes('.')) {
     sInt = value;
   } else {
-    let parts = value.split('.');
-    sInt = parts[0];
-    sDec = parts[1];
+    const parts = value.split('.');
+    sInt = parts[0]; // eslint-disable-line prefer-destructuring
+    sDec = parts[1]; // eslint-disable-line prefer-destructuring
   }
   if (i18n.locale === 'es') {
     thousandsSeparator = '.';
     decimalSeparator = ',';
   }
-  let s = sInt.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + thousandsSeparator);
+  let s = sInt.replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1${thousandsSeparator}`);
   if (sDec !== '') {
     s += decimalSeparator + sDec;
   }
@@ -72,13 +74,13 @@ Vue.filter('toCryptoCurrency', function (value) {
 });
 
 
-Vue.filter('toDate', function (value, format) {
-  let date = new Date(value);
+Vue.filter('toDate', (value, format) => {
+  const date = new Date(value);
   let locale = 'en-US';
   if (i18n.locale === 'es') {
     locale = 'es-AR';
   }
-  switch(format) {
+  switch (format) {
     case 'short':
       return date.toLocaleDateString(locale);
     default:
@@ -86,24 +88,25 @@ Vue.filter('toDate', function (value, format) {
   }
 });
 
-Vue.filter('toCurrency', function (value, decimals) {
+Vue.filter('toCurrency', (value, nDecimals) => {
   if (!value) return '';
   if (typeof value !== 'number') {
     return value;
   }
+  let decimals = nDecimals;
   if (!decimals) {
-    decimals = 0
+    decimals = 0;
   }
   if (typeof decimals !== 'number') {
-    decimals = 0
+    decimals = 0;
   }
-  var formatter = new Intl.NumberFormat('en-US', {
+  const formatter = new Intl.NumberFormat('en-US', {
     style: 'decimal',
     currency: 'USD',
     minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals
-  })
-  return formatter.format(value)
+    maximumFractionDigits: decimals,
+  });
+  return formatter.format(value);
 });
 
 new Vue({

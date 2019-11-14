@@ -44,7 +44,8 @@
                 </div>
               </div>
 
-              <form @submit.prevent="send" v-show="!sending && verified && !sent" class="text-center">
+              <form @submit.prevent="send" v-show="!sending && verified && !sent"
+                class="text-center">
                 <h5>{{ $t('send.please_review') }}</h5>
                 <p>
                   <i18n path="send.send_amount_to">
@@ -69,10 +70,7 @@
               </form>
 
 
-
             </div>
-
-
 
 
           </div>
@@ -85,14 +83,13 @@
     </div>
 
 
-
   </app-layout>
 </template>
 
 <script>
 import AppLayout from 'seed-theme/src/layouts/AppLayout.vue';
-import BigNumber from 'bignumber.js';
 import QRCode from 'qrcode';
+
 export default {
   name: 'Send',
   components: {
@@ -111,11 +108,11 @@ export default {
       to: '',
       amount: '',
       toWalletAddress: '',
-      transactionId: ''
+      transactionId: '',
     };
   },
   created() {
-    this.getData()
+    this.getData();
   },
   methods: {
     getData() {
@@ -132,6 +129,9 @@ export default {
           this.emptyWallet = (this.balance === '0');
         })
         .catch((error) => {
+          if (process.env.NODE_ENV === 'development') {
+            console.error(error);
+          }
           this.loading = false;
           this.oops = true;
         });
@@ -147,7 +147,7 @@ export default {
           this.sending = false;
           this.verified = true;
           this.toWalletAddress = result.data.toWalletAddress;
-          QRCode.toCanvas(document.getElementById('qr-canvas'), this.toWalletAddress, {width: 148}, function (error) {
+          QRCode.toCanvas(document.getElementById('qr-canvas'), this.toWalletAddress, { width: 148 }, (error) => {
             if (error) console.error(error);
           });
         })

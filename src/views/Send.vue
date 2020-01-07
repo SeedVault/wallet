@@ -1,16 +1,16 @@
 <template>
-  <app-layout>
-    <loading-circle loading="loading" v-show="loading"></loading-circle>
-    <oops v-show="oops"></oops>
+  <app-page>
+    <template v-slot:main>
+      <full-centered v-slot:main v-if="loading || oops">
+        <loading-checkmark visible="false" :loading="loading" v-if="!oops"></loading-checkmark>
+        <oops v-show="oops"></oops>
+      </full-centered>
 
-    <div class="row" v-show="!loading && !oops">
-      <div class="col-lg-7">
-        <div class="card box">
-          <div class="card-body">
-            <h4 class="card-title">{{ $t('send.send') }}</h4>
-
-            <div class="empty-wallet text-center" v-show="emptyWallet">
-              <h5>Your wallet is empty</h5>
+      <div class="row" v-show="!loading && !oops">
+        <div class="col-lg-7">
+          <simple-box :title="$t('app.send')">
+            <div class="text-black-50 text-center mt-5 mb-5" v-show="emptyWallet">
+              <h5>{{ $t('send.your_wallet_is_empty') }}</h5>
             </div>
 
             <div class="send-box" v-if="!emptyWallet">
@@ -19,29 +19,31 @@
 
               <form @submit.prevent="verify" v-show="!sending && !verified">
                 <input-text v-model="to" id="to" :label="$t('send.to_label')"
-                :placeholder="$t('send.to_placeholder')" icon="outline-person-24px@2x.svg"
+                :placeholder="$t('send.to_placeholder')" icon="person"
                 :validationErrors="validationErrors"></input-text>
 
                 <input-text v-model="amount" id="amount" :label="$t('send.amount_label')"
-                :placeholder="$t('send.amount_placeholder')" icon="outline-coin-24px@2x.svg"
+                :placeholder="$t('send.amount_placeholder')" icon="coin"
                 :validationErrors="validationErrors"></input-text>
 
                 <input type="submit" id="submit" :value="$t('common.continue')"
-                  class="btn btn-primary btn-lg btn-block"/>
+                  class="btn btn-primary btn-lg btn-block font-weight-bold"/>
               </form>
 
               <div id="sending" class="text-center" v-show="sending || sent">
-                <div v-bind:class="[{ 'load-complete': sent }, 'circle-loader circle-text']">
-                  <div class="checkmark draw" v-show="sent"></div>
-                </div>
-                <div v-if="sent">
-                  <h5 class="sent-message">{{ $t('send.sent') }}</h5>
-                  <p>{{ $t('send.funds_will_be_credited') }}</p>
-                  <p class="transaction-id">{{ $t('send.transaction_id') }}: {{ transactionId }}</p>
-                </div>
-                <div v-if="sending && !sent">
-                  {{ $t('common.please_wait') }}
-                </div>
+                <loading-checkmark visible="true" :loading="loading" :showCheckmark="sent">
+                  <template v-slot:messages>
+                    <div v-if="sent">
+                      <h5 class="primary-color mb-5">{{ $t('send.sent') }}</h5>
+                      <p>{{ $t('send.funds_will_be_credited') }}</p>
+                      <p class="transaction-id">{{ $t('send.transaction_id') }}:
+                        {{ transactionId }}</p>
+                    </div>
+                    <div v-if="sending && !sent">
+                      {{ $t('common.please_wait') }}
+                    </div>
+                  </template>
+                </loading-checkmark>
               </div>
 
               <form @submit.prevent="send" v-show="!sending && verified && !sent"
@@ -49,59 +51,57 @@
                 <h5>{{ $t('send.please_review') }}</h5>
                 <p>
                   <i18n path="send.send_amount_to">
-                    <strong slot="amount">{{ amount|toCryptoCurrency() }}</strong>
+                    <strong slot="amount">{{ $n(amount, 'cryptoCurrency') }}</strong>
                     <strong slot="to">{{ to }}</strong>
                   </i18n>
                 </p>
                 <canvas id="qr-canvas"></canvas>
-                <p class="to-wallet-address">{{ toWalletAddress}}</p>
+                <p class="to-wallet-address mb-5">{{ toWalletAddress}}</p>
                 <div class="form-row">
                   <div class="col-12 col-md-6 my-1">
-                    <button type="button" @click="previous" class="btn btn-sm btn-light btn-block">
-                      <img src="@/assets/icons/arrow-back.svg" /> {{ $t('common.previous') }}
+                    <button type="button" @click="previous"
+                      class="btn btn-md btn-light btn-block font-weight-bold">
+                      <icon icon="arrow-left-primary" class="mr-1" /> {{ $t('common.previous') }}
                     </button>
                   </div>
                   <div class="col-12 col-md-6 my-1">
-                    <button type="button" @click="send" class="btn btn-sm btn-primary btn-block">
+                    <button type="button" @click="send"
+                      class="btn btn-md btn-primary btn-block font-weight-bold">
                       {{ $t('send.send') }}
                     </button>
                   </div>
                 </div>
               </form>
 
-
             </div>
-
-
-          </div>
+          </simple-box>
+        </div>
+        <div class="col-lg-5">
         </div>
       </div>
 
-      <div class="col-lg-5">
-
-      </div>
-    </div>
-
-
-  </app-layout>
+    </template>
+    <router-view/>
+  </app-page>
 </template>
 
 <script>
-import AppLayout from 'seed-theme/src/layouts/AppLayout.vue';
+import AppPage from 'seed-theme/src/layouts/AppPage.vue';
 import QRCode from 'qrcode';
+import { reactive, toRefs } from '@vue/composition-api';
 
 export default {
-  name: 'Send',
+  name: 'Dashboard',
   components: {
-    AppLayout,
+    AppPage,
   },
-  data() {
-    return {
+  setup(props, context) {
+    const data = reactive({
       loading: false,
       oops: false,
       emptyWallet: false,
       sending: false,
-      verfied: false,
+      verified: false,
       sent: false,
       validationErrors: [],
       balance: '',
@@ -109,122 +109,98 @@ export default {
       amount: '',
       toWalletAddress: '',
       transactionId: '',
-    };
-  },
-  created() {
-    this.getData();
-  },
-  methods: {
-    getData() {
-      this.validationErrors = [];
-      this.loading = true;
-      this.emptyWallet = false;
-      this.sending = false;
-      this.verified = false;
-      this.sent = false;
-      this.axios.get('/api/wallet')
-        .then((result) => {
-          this.loading = false;
-          this.balance = result.data.balance;
-          this.emptyWallet = (this.balance === '0');
-        })
-        .catch((error) => {
-          if (process.env.NODE_ENV === 'development') {
-            console.error(error);
-          }
-          this.loading = false;
-          this.oops = true;
+    });
+
+    async function getData() {
+      try {
+        data.loading = true;
+        data.oops = false;
+        data.validationErrors = [];
+        const response = await context.root.axios.get('/wallet/me');
+        data.balance = response.data.balance;
+        data.walletAddress = response.data.profile.walletAddress;
+        data.balance = response.data.balance;
+        data.emptyWallet = (data.balance === '0');
+        data.loading = false;
+      } catch (error) {
+        data.loading = false;
+        data.oops = true;
+      }
+    }
+
+    async function verify() {
+      try {
+        data.sending = true;
+        data.validationErrors = [];
+        const response = await context.root.axios.post('/wallet/verify', {
+          to: data.to,
+          amount: data.amount,
         });
-    },
-    verify() {
-      this.validationErrors = [];
-      this.sending = true;
-      this.axios.post('/api/wallet/verify', {
-        to: this.to,
-        amount: this.amount,
-      })
-        .then((result) => {
-          this.sending = false;
-          this.verified = true;
-          this.toWalletAddress = result.data.toWalletAddress;
-          QRCode.toCanvas(document.getElementById('qr-canvas'), this.toWalletAddress, { width: 148 }, (error) => {
+        data.verified = true;
+        data.toWalletAddress = response.data.toWalletAddress;
+        QRCode.toCanvas(document.getElementById('qr-canvas'), data.toWalletAddress,
+          { width: 148 }, (error) => { // error
             if (error) console.error(error);
           });
-        })
-        .catch((error) => {
-          this.sending = false;
-          if (error.response.status === 422) {
-            this.validationErrors = this.normalizeErrors(error.response);
-          } else {
-            this.oops = true;
-          }
+        data.balance = response.data.balance;
+        data.walletAddress = response.data.walletAddress;
+        data.balance = response.data.balance;
+        data.emptyWallet = (data.balance === '0');
+        data.sending = false;
+      } catch (error) {
+        console.log(error);
+        data.sending = false;
+        if (error.response && error.response.status === 422) {
+          data.validationErrors = context.root.normalizeErrors(error.response);
+        } else {
+          data.oops = true;
+        }
+      }
+    }
+
+    function previous() {
+      data.validationErrors = [];
+      data.loading = false;
+      data.emptyWallet = false;
+      data.sending = false;
+      data.verified = false;
+      data.sent = false;
+    }
+
+    async function send() {
+      try {
+        data.sending = true;
+        data.validationErrors = [];
+        const response = await context.root.axios.post('/wallet/send', {
+          to: data.to,
+          amount: data.amount,
         });
-    },
-    previous() {
-      this.validationErrors = [];
-      this.loading = false;
-      this.emptyWallet = false;
-      this.sending = false;
-      this.verified = false;
-      this.sent = false;
-    },
-    send() {
-      this.sending = true;
-      this.sent = false;
-      this.axios.post('/api/wallet/send', {
-        to: this.to,
-        amount: this.amount,
-      })
-        .then((result) => {
-          this.sending = false;
-          this.verified = true;
-          this.sent = true;
-          this.transactionId = result.data.transactionId;
-        })
-        .catch((error) => {
-          this.sending = false;
-          this.verified = false;
-          if (error.response.status === 422) {
-            this.validationErrors = this.normalizeErrors(error.response);
-          } else {
-            this.oops = true;
-          }
-        });
-    },
+        data.sending = false;
+        data.verified = true;
+        data.sent = true;
+        data.transactionId = response.data.transactionId;
+      } catch (error) {
+        data.sending = false;
+        data.verified = false;
+        if (error.response && error.response.status === 422) {
+          data.validationErrors = context.root.normalizeErrors(error.response);
+        } else {
+          data.oops = true;
+        }
+      }
+    }
+
+    getData();
+
+    return {
+      ...toRefs(data), getData, verify, previous, send,
+    };
   },
 };
+
 </script>
 
 <style lang="scss" scoped>
-.empty-wallet {
-  padding-top: 100px;
-  padding-bottom: 100px;
-  color: #999;
-}
-
-.send-box {
-  padding-top: 30px;
-  padding-bottom: 30px;
-}
-
-.sending {
-  padding-top: 100px;
-  padding-bottom: 100px;
-}
-
-.circle-text {
-  margin-bottom: 1em;
-}
-
-.to-wallet-address {
-  margin-bottom: 50px;
-}
-
-.sent-message {
-  color: #6b4c9f;
-  margin-bottom: 2em;
-}
-
 .transaction-id {
   color: #999;
   font-size: 0.95em;

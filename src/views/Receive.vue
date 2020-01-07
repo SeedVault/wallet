@@ -1,80 +1,78 @@
 <template>
-  <app-layout>
-    <loading-circle loading="loading" v-show="loading"></loading-circle>
-    <oops v-show="oops"></oops>
+  <app-page>
+    <template v-slot:main>
+      <full-centered v-slot:main v-if="loading || oops">
+        <loading-checkmark visible="false" :loading="loading" v-if="!oops"></loading-checkmark>
+        <oops v-show="oops"></oops>
+      </full-centered>
 
-    <div class="row" v-show="!loading && !oops">
-      <div class="col-lg-7">
-        <div class="card box">
-          <div class="card-body">
-            <h4 class="card-title">{{ $t('receive.receive') }}</h4>
+      <div class="row" v-show="!loading && !oops">
+        <div class="col-lg-7">
+          <simple-box :title="$t('receive.receive')">
             <div class="text-center">
               <canvas id="qr-canvas"></canvas>
-              <p class="your-wallet-address">{{ $t('receive.your_wallet_address') }}</p>
+              <h5 class="text-black-50 font-weight-normal mb-4">
+                {{ $t('receive.your_wallet_address') }}</h5>
               <input type="hidden" id="your-wallet-address" :value="walletAddress">
-              <h4 class="wallet-address">{{ walletAddress }}
+              <h4 class="wallet-address p-3 mb-4">{{ walletAddress }}
                 <button type="button" @click="copyToClipboard"
                 class="btn btn-light btn-sm"
                 style="width: 38px;top:-3px;position: relative"
                 :title="$t('receive.copy_wallet_address_to_clipboard')">
-                <img src="@/assets/icons/clipboard.svg" /></button></h4>
-              <p class="share">{{ $t('receive.share_your_address') }}</p>
+                <icon icon="clipboard" /></button></h4>
+              <p class="text-black-50">{{ $t('receive.share_your_address') }}</p>
             </div>
-          </div>
+          </simple-box>
+        </div>
+        <div class="col-lg-5">
+
         </div>
       </div>
 
-      <div class="col-lg-5">
 
-      </div>
-    </div>
-
-  </app-layout>
+    </template>
+    <router-view/>
+  </app-page>
 </template>
 
 <script>
-import AppLayout from 'seed-theme/src/layouts/AppLayout.vue';
+import AppPage from 'seed-theme/src/layouts/AppPage.vue';
 import QRCode from 'qrcode';
+import { reactive, toRefs } from '@vue/composition-api';
 
 export default {
   name: 'Receive',
   components: {
-    AppLayout,
+    AppPage,
   },
-  data() {
-    return {
+  setup(props, context) {
+    const data = reactive({
       loading: false,
       oops: false,
       walletAddress: '',
       balance: '',
-    };
-  },
-  created() {
-    this.getData();
-  },
-  methods: {
-    getData() {
-      this.loading = true;
-      this.axios.get('/api/wallet')
-        .then((result) => {
-          this.loading = false;
-          this.balance = result.data.balance;
-          this.walletAddress = result.data.profile.walletAddress;
-          QRCode.toCanvas(document.getElementById('qr-canvas'), this.walletAddress, { width: 200 }, (error) => {
-            if (error && process.env.NODE_ENV === 'development') {
-              console.error(error);
-            }
+    });
+
+    async function getData() {
+      try {
+        data.loading = true;
+        data.oops = false;
+        data.validationErrors = [];
+        const response = await context.root.axios.get('/wallet/me');
+        data.balance = response.data.balance;
+        data.walletAddress = response.data.profile.walletAddress;
+        QRCode.toCanvas(document.getElementById('qr-canvas'), data.walletAddress,
+          { width: 200 }, () => { // error
           });
-        })
-        .catch((error) => {
-          if (process.env.NODE_ENV === 'development') {
-            console.error(error);
-          }
-          this.loading = false;
-          this.oops = true;
-        });
-    },
-    copyToClipboard() {
+        data.loading = false;
+      } catch (error) {
+        data.loading = false;
+        data.oops = true;
+      }
+    }
+
+
+    function copyToClipboard() {
       const walletAddressToCopy = document.querySelector('#your-wallet-address');
       walletAddressToCopy.setAttribute('type', 'text');
       walletAddressToCopy.select();
@@ -91,25 +89,20 @@ export default {
       }
       walletAddressToCopy.setAttribute('type', 'hidden');
       window.getSelection().removeAllRanges();
-    },
+    }
+
+    getData();
+
+    return {
+      ...toRefs(data), getData, copyToClipboard,
+    };
   },
 };
+
 </script>
 
 <style lang="scss" scoped>
-
 h4.wallet-address {
-  font-size: 1.2125rem;
   background-color: #eee;
-  padding: 10px;
-}
-
-p.your-wallet-address {
-  font-size: 1rem;
-  color: #666;
-}
-p.share {
-  color: #999;
-  margin-top: 20px;
 }
 </style>

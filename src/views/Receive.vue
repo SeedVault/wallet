@@ -82,10 +82,7 @@ export default {
         // var msg = successfulCopy ? 'successful' : 'unsuccessful';
         // alert('Testing code was copied ' + msg);
       } catch (err) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error(err);
-        }
-        // alert('Oops, unable to copy');
+        // ignore it
       }
       walletAddressToCopy.setAttribute('type', 'hidden');
       window.getSelection().removeAllRanges();

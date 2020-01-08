@@ -13,19 +13,13 @@
               <icon icon="seed-symbol"
               class="token-symbol" /> {{ $n(balance, 'cryptoCurrency') }}
             </div>
-            <balance-chart v-if="!loading" :chartdata="chartBalanceData"
+            <balance-chart v-if="!loading" :chart-data="chartBalanceData"
             :options="chartBalanceOptions" :height="200"></balance-chart>
           </simple-box>
         </div>
         <div class="col-lg-5">
           <simple-box :title="$t('dashboard.latest_transactions')">
-            <p class="mt-5 text-black-50" v-if="latestTransactions.length === 0">
-              {{ $t('dashboard.there_are_no_transactions') }}
-            </p>
-            <div class="mt-5">
-              <a class="smallest-text" :href="getExplorerUrl()"
-              target="_blank">{{ $t('dashboard.view_all_transactions') }}</a>
-            </div>
+            <latest-transactions :transactions="latestTransactions"></latest-transactions>
           </simple-box>
         </div>
       </div>
@@ -93,12 +87,13 @@ export default {
         }
         for (let i = data.latestTransactions.length - 1; i >= 0; i -= 1) {
           data.chartBalanceData.labels.push(
-            data.$options.filters.toDate(data.latestTransactions[i].date, 'short'),
+            context.root.$i18n.d(Date.parse(data.latestTransactions[i].date), 'short'),
           );
           data.chartBalanceData.datasets[0].data.push(hist[i]);
         }
         data.loading = false;
       } catch (error) {
+        console.log(error);
         data.loading = false;
         data.oops = true;
       }

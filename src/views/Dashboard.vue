@@ -93,7 +93,6 @@ export default {
         }
         data.loading = false;
       } catch (error) {
-        console.log(error);
         data.loading = false;
         data.oops = true;
       }

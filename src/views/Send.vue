@@ -139,8 +139,8 @@ export default {
         data.verified = true;
         data.toWalletAddress = response.data.toWalletAddress;
         QRCode.toCanvas(document.getElementById('qr-canvas'), data.toWalletAddress,
-          { width: 148 }, (error) => { // error
-            if (error) console.error(error);
+          { width: 148 }, () => { // error
+            // if (error) console.error(error);
           });
         data.balance = response.data.balance;
         data.walletAddress = response.data.walletAddress;
@@ -148,7 +148,6 @@ export default {
         data.emptyWallet = (data.balance === '0');
         data.sending = false;
       } catch (error) {
-        console.log(error);
         data.sending = false;
         if (error.response && error.response.status === 422) {
           data.validationErrors = context.root.normalizeErrors(error.response);

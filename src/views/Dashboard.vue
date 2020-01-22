@@ -19,7 +19,9 @@
         </div>
         <div class="col-lg-5">
           <simple-box :title="$t('dashboard.latest_transactions')">
-            <latest-transactions :transactions="latestTransactions"></latest-transactions>
+            <latest-transactions
+            :wallet-address="walletAddress"
+            :transactions="latestTransactions"></latest-transactions>
           </simple-box>
         </div>
       </div>
@@ -44,6 +46,7 @@ export default {
     const data = reactive({
       loading: false,
       oops: false,
+      walletAddress: '',
       balance: '',
       latestTransactions: [],
       chartBalanceOptions: {
@@ -69,6 +72,7 @@ export default {
         data.oops = false;
         data.validationErrors = [];
         const response = await context.root.axios.get('/wallet/me/dashboard');
+        data.walletAddress = response.data.walletAddress;
         data.balance = response.data.balance;
         data.latestTransactions = response.data.latestTransactions;
         data.chartBalanceData.labels = [];

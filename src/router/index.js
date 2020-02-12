@@ -40,9 +40,6 @@ const routes = [
         i18n.locale = locale;
       }
       store.dispatch('setLang', { lang: i18n.locale });
-      if (to.name === 'dashboard') {
-        next(`/${i18n.locale}/send`);
-      }
       next();
     },
     children: [
